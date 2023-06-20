@@ -19,7 +19,7 @@ tidy up ux for blockchain interactions
 
 ## Push Ball Forward Tasks
 
-git init project, develop pipeline
+git init project, develop pipeline with deployed page
 
 deploy frontend to git pages
 
