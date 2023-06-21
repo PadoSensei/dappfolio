@@ -31,10 +31,10 @@ create a dev branch
 create a feature branch
 merge feature into dev, merge dev into master, deploy from there
 }
-add light / dark theme
+~~add light / dark theme~~
 get project on testnet
 
-find dark light guide
+~~find dark light guide~~
 
 ## Research topics
 
