@@ -20,6 +20,7 @@ import {
   // useEnsAvatar,
   // useEnsName,
 } from 'wagmi'
+import LightDarkButton from './LightDarkButton';
 
 
 const HeaderData = () => {
@@ -36,7 +37,7 @@ const HeaderData = () => {
       </Flex>
 
       <Flex className="header-button-container" direction={"row"} >
-          <Button compact>Bright / Dark Mode</Button>
+          <LightDarkButton />
           {/* <Button component={Link} variant="link" to="/Mint" compact>The Mint Button </Button> */}
           {/* <Button onClick={} compact>The Connect Button</Button>
           <Button onClick={}  compact>Message</Button> */}

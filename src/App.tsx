@@ -25,7 +25,11 @@ import {
   MediaQuery,
   Burger,
   useMantineTheme,
+  ColorSchemeProvider,
+  MantineProvider,
+  ColorScheme,
 } from '@mantine/core';
+import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 // Components
 import Govern from "./dApps/Govern/Govern";
@@ -39,6 +43,8 @@ import FooterData from "./Components/FooterData";
 import Mint from './Components/Mint'
 import SideInfo from "./Components/SideInfo";
 
+
+// Ethers web3 
 const ethers = require("ethers")
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -78,8 +84,21 @@ function App() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme', 
+    defaultValue: 'light',
+  });
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+  setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
+  useHotkeys([['mod+j', () => toggleColorScheme()]])
+
   return (
     <Router>      
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme ={{colorScheme}}>
+
       <AppShell
         styles={{
           main: {
@@ -174,100 +193,11 @@ function App() {
       </Routes>
         </WagmiConfig>
       </AppShell>
+      </MantineProvider>
+      </ColorSchemeProvider>
     </Router>
 
   );
-
-  // const [userAddress, setUserAddress] = useState(null);
-
-  // const connectWallet = async () => {
-    //   console.log("Running Connect-Wallet");
-    
-    //   if (window.ethereum && window.ethereum.isMetamask) {
-      //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-      //     console.log(provider);
-  //     const accounts = await provider.send("eth_requestAccounts");
-  //     console.log(accounts);
-  //     const signer = provider.getSigner();
-  //     console.log(signer);
-  //     const address = await signer.getAddress();
-  //     console.log(address);
-
-  //     setUserAddress(address);
-  //   }
-  // };
-
-  // const checkConnection = async () => {
-  //   console.log("App CC: Running Check  Connection");
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const accounts = await provider.listAccounts();
-
-  //   console.log("App CC: Accounts:", accounts);
-
-  //   const signer = provider.getSigner();
-  //   console.log("App CC Signer:", signer);
-
-  //   try {
-  //     const address = await signer.getAddress();
-  //     console.log("App CC: Address", address);
-  //   } catch {
-  //     console.log("App CC: No connection found");
-  //     accounts[0] = null;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log("App Effect: user Address");
-  //   console.log(userAddress);
-  // }, [userAddress]);
-
-//   return (
-//     <div className="App">
-//       <header>
-//         <nav>
-//           <div>
-//             <h1>
-//               <a href="#">Dappfolio </a>
-//             </h1>
-//           </div>
-//           {/* REFACTOR */}
-//           {/* userAddress */}
-//           { 1!==1 ? (
-//             <li className="nav-cta">
-//               {/* <a onClick={connectWallet} href="#"> */}
-//                 Connect
-//               {/* </a> */}
-//             </li>
-//           ) : (
-//             <ul>
-//               <li className="dropdown">
-//                 <a className="dropdown-menu" href="/">
-//                   Choose a dApp
-//                 </a>
-//                 <div className="dropdown-content">
-//                   <a href="./VotingApp">DAO Voting dApp</a>
-//                   <br />
-//                   <a href="./ChatApp">NFT Chat dApp</a>
-//                   <br />
-//                   {/* <a href="./VotingApp">DAO Voting App</a>
-//                   <br />
-//                   <a href="./VotingApp">DAO Voting App</a>
-//                   <br /> */}
-//                 </div>
-//               </li>
-//             </ul>
-//           )}
-//           <div className="logo">
-//             <h1>
-//               <a href="/"> Web3 Dappfolio</a>
-//             </h1>
-//           </div>
-//         </nav>
-//       </header>
-
-      
-//     </div>
-//   );
 }
 
 export default App;
